@@ -41,23 +41,20 @@ $yourLocationBtn.addEventListener('click', () => {
 
     navigator.geolocation.getCurrentPosition((position) => {
 
-        navigator.geolocation.getCurrentPosition((position) => {
-
-            fetch('/weather?address=' + location)
-            .then((response) => {
-                response.json().then((data) => {
-                    if (data.error) {
-                        console.error('Error: ', data.error);
-                        $messageOne.textContent = data.error;
-                    }
-                    else {
-                        $messageOne.textContent = data.location;
-                        $messageTwo.innerHTML = 'Temperature: ' + data.forecast.temperature + ' ºC' + '<br/>' +
-                        data.forecast.weather_descriptions[0] + '<br/>' +
-                        'Wind speed: ' + data.forecast.wind_speed + ' km/h' + '<br/>' +
-                        'Wind direction: ' + data.forecast.wind_dir;
-                    }
-                });
+        fetch('/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude)
+        .then((response) => {
+            response.json().then((data) => {
+                if (data.error) {
+                    console.error('Error: ', data.error);
+                    $messageOne.textContent = data.error;
+                }
+                else {
+                    $messageOne.textContent = data.location;
+                    $messageTwo.innerHTML = 'Temperature: ' + data.forecast.temperature + ' ºC' + '<br/>' +
+                    data.forecast.weather_descriptions[0] + '<br/>' +
+                    'Wind speed: ' + data.forecast.wind_speed + ' km/h' + '<br/>' +
+                    'Wind direction: ' + data.forecast.wind_dir;
+                }
             });
         });
     });

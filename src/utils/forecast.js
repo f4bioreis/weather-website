@@ -14,7 +14,13 @@ const forecast = (latitude, longitude, callback) => {
         }
         else {
             const data = body;
-            const weatherData = data.current;
+            const weatherData = {
+                locationName: data.location.name,
+                region: data.location.region,
+                country: data.location.country,
+                ...data.current
+            };
+            console.log('weatherData: ', body);
             callback(null, weatherData);
         }
     });
